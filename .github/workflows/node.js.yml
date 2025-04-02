@@ -33,7 +33,7 @@ jobs:
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with: 
-        name: webpack-artifact
+        name: my-artifact
         path: public
           
     
@@ -45,7 +45,7 @@ jobs:
     - name: download webpack artifact
       uses: actions/download-artifact@v4
       with:
-        name: webpack-artifact
+        name: my-artifact
         path: public
     - name: build and test
       uses: actions/setup-node@v4
