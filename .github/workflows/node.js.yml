@@ -35,7 +35,7 @@ jobs:
     # https://github.com/actions/upload-artifact
     # Check to see if artifact has already been created
     - name: Upload build artifact
-      if: ${{ env.ARTIFACT_CREATED == 'true' }}
+      if: ${{ env.ARTIFACT_CREATED == 'false' }}
       uses: actions/upload-artifact@v4
       with: 
         name: my-artifact
