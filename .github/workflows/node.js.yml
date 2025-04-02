@@ -40,7 +40,7 @@ jobs:
       with: 
         name: my-artifact
         path: public
-    - run: echo "env.myBoolean=true" >> "$GITUB_ENV"
+    - run: echo "myBoolean=true" >> "$GITUB_ENV"
     
   test:
     needs: build
