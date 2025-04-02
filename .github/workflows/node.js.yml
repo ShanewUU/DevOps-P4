@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 env: 
-  ARTIFACT_CREATED: False
+  ARTIFACT_CREATED: ${{ false }}
 
 jobs:
   build:
@@ -35,14 +35,12 @@ jobs:
     # https://github.com/actions/upload-artifact
     # Check to see if artifact has already been created
     - name: Upload build artifact
-      if: ARTIFACT_CREATED == 'False'
+      if: env.myBoolean
       uses: actions/upload-artifact@v4
       with: 
         name: my-artifact
         path: public
-      env:
-        ARTIFACT_CREATED: True
-          
+    - run: echo "env.myBoolean=true" >> "$GITUB_ENV"
     
   test:
     needs: build
