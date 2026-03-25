@@ -79,4 +79,5 @@ jobs:
       - name: Deploy to GitHub pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with: my-artifact-22.x-ubuntu-latest
+        with: 
+          artifact_name: my-artifact-22.x-ubuntu-latest
