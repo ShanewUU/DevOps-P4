@@ -39,6 +39,11 @@ jobs:
       with: 
         name: my-artifact-${{ matrix.node-version }}-${{ matrix.os }}
         path: public
+    - name: Upload pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with: 
+        path: ./public
+      
 
     
     
@@ -71,13 +76,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: download webpack artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: my-artifact-22.x-ubuntu-latest
-          path: public
       - name: Deploy to GitHub pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with: 
-          artifact_name: my-artifact-22.x-ubuntu-latest
+        #with: 
+          #artifact_name: my-artifact-22.x-ubuntu-latest
