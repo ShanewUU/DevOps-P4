@@ -5,12 +5,16 @@ name: Node.js CI
 
 on:
   push:
-   paths-ignore:
+    paths-ignore:
       # ignore paths and markdown files
       - ".github/workflows/**"
       - "**/*.md"
     branches: [ "main" ]
   pull_request:
+    paths-ignore:
+        # ignore paths and markdown files
+        - ".github/workflows/**"
+        - "**/*.md"
     branches: [ "main" ]
   workflow_dispatch:
 
