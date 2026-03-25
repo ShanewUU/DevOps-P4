@@ -48,7 +48,7 @@ jobs:
         name: my-artifact-${{ matrix.node-version }}-${{ matrix.os }}
         path: public
     - name: Upload pages artifact
-      if: ${{matrix.node-version == '24.x'}}
+      if: ${{matrix.node-version == '24.x' && matrix.os == 'ubuntu-latest'}}
       uses: actions/upload-pages-artifact@v3
       with: 
         path: ./public
