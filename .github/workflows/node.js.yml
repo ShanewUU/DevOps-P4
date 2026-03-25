@@ -5,8 +5,16 @@ name: Node.js CI
 
 on:
   push:
+    paths-ignore:
+      # ignore paths and markdown files
+      - ".github/workflows/**"
+      - "**/*.md"
     branches: [ "main" ]
   pull_request:
+    paths-ignore:
+        # ignore paths and markdown files
+        - ".github/workflows/**"
+        - "**/*.md"
     branches: [ "main" ]
   workflow_dispatch:
 
@@ -19,14 +27,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x, 24.x]
     runs-on: ${{ matrix.os }}
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
@@ -34,11 +41,18 @@ jobs:
     - run: npm run build --if-present
     # https://github.com/actions/upload-artifact
     # Check to see if artifact has already been created
+    # Upload only node 24.x version
     - name: Upload build artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with: 
         name: my-artifact-${{ matrix.node-version }}-${{ matrix.os }}
         path: public
+    - name: Upload pages artifact
+      if: ${{matrix.node-version == '24.x' && matrix.os == 'ubuntu-latest'}}
+      uses: actions/upload-pages-artifact@v3
+      with: 
+        path: ./public
+      
 
     
     
@@ -46,16 +60,16 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - name: download webpack artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v8
       with:
-        name: my-artifact-22.x-ubuntu-latest
+        name: my-artifact-24.x-ubuntu-latest
         path: public
     - name: build and test
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version: 24.x
         cache: 'npm'
     - run: npm ci
     - run: npm test -- -u
@@ -74,3 +88,5 @@ jobs:
       - name: Deploy to GitHub pages
         id: deployment
         uses: actions/deploy-pages@v4
+        #with: 
+          #artifact_name: my-artifact-22.x-ubuntu-latest
